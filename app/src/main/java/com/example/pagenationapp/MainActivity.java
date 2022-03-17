@@ -1,17 +1,16 @@
 package com.example.pagenationapp;
 
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import android.widget.Toast;
 
 import com.example.pagenationapp.Adapter.ImageViewAdapter;
 import com.example.pagenationapp.Model1.ImageModel;
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void imageload() {
         isLoading = true;
         Requestinterface api = ServiceGenerator.createService(Requestinterface.class);
-        api.getimage(page, 30)
+        api.getimage(page, pagesize)
                 .enqueue(new Callback<List<ImageModel>>() {
                     @Override
                     public void onResponse(Call<List<ImageModel>> call, Response<List<ImageModel>> response) {

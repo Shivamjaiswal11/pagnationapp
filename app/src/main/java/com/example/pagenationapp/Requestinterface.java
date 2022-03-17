@@ -22,7 +22,7 @@ public interface Requestinterface {
 
     );
     @Headers("Authorization: Client-ID "+API_URL)
-    @GET("Search/photos")
+    @GET("search/photos")
     Call<SerachModel> searchimage(
             @Query("query") String query
 

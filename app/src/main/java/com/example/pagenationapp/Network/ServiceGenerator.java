@@ -6,8 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://your.api-base.url";
-    public static final String API_URL = "";
+    public static final String API_BASE_URL = "https://api.unsplash.com";
+    public static final String API_URL = "VWtpDilrxjxrqrjOMYlc0kdvjGVFT2T3GmzGn91t3KI";
 
     private static OkHttpClient httpClient;
 
