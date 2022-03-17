@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://your.api-base.url";
+    public static final String API_URL = "";
 
     private static OkHttpClient httpClient;
 
