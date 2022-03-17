@@ -1,9 +1,12 @@
 package com.example.pagenationapp;
 
+import static android.view.View.GONE;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import com.example.pagenationapp.Model1.ImageModel;
 import com.example.pagenationapp.Model1.SerachModel;
 import com.example.pagenationapp.Network.ServiceGenerator;
 import com.example.pagenationapp.databinding.ActivityMainBinding;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private int pagesize = 30;
     private boolean isLoading;
     private boolean isLastPage;
+    private ShimmerFrameLayout shimmerFrameLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
         binding.rec.setLayoutManager(gridLayoutManager);
         binding.rec.setHasFixedSize(true);
         binding.rec.setAdapter(adapter);
-        progressDialog = new ProgressDialog(this);
+    /*    progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("I Love You");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+        progressDialog.show();*/
         imageload();
         binding.rec.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -79,13 +85,19 @@ public class MainActivity extends AppCompatActivity {
                 .enqueue(new Callback<List<ImageModel>>() {
                     @Override
                     public void onResponse(Call<List<ImageModel>> call, Response<List<ImageModel>> response) {
+
+binding.mainshimmer.setVisibility(GONE);
+binding.rec.setVisibility(View.VISIBLE);
                         if (response.isSuccessful()) {
                             list.addAll(response.body());
                             adapter.notifyDataSetChanged();
 
                         }
                         isLoading = false;
-                        progressDialog.dismiss();
+                      //  progressDialog.dismiss();
+                        binding.mainshimmer.setVisibility(GONE);
+
+
                         if (list.size() > 0) {
                             isLastPage = list.size() < pagesize;
 
@@ -95,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<List<ImageModel>> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Error :" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
+                      //  progressDialog.dismiss();
+                        binding.mainshimmer.setVisibility(GONE);
+
                     }
                 });
     }
@@ -109,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                progressDialog.show();
+              //  progressDialog.show();
+                binding.mainshimmer.setVisibility(View.VISIBLE);
                 searchdata(query);
                 return true;
             }
@@ -128,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
         api.searchimage(query).enqueue(new Callback<SerachModel>() {
             @Override
             public void onResponse(Call<SerachModel> call, Response<SerachModel> response) {
-                progressDialog.dismiss();
+             //   progressDialog.dismiss();
+                binding.mainshimmer.setVisibility(GONE);
                 list.clear();
 
                 if (response.isSuccessful()) {
@@ -140,8 +156,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SerachModel> call, Throwable t) {
-
+                binding.mainshimmer.setVisibility(GONE);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }
