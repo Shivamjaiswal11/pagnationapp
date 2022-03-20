@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".SplashActivity">
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Welcome"
+        android:textStyle="bold"
+        android:textSize="60dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-condensed"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+
+        android:layout_width="wrap_content"
+        android:layout_height="544dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_ycm8tr5x.json"/>
+<TextView
+
+android:gravity="center"
+    android:paddingTop="600dp"
+    android:id="@+id/tv2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Develop by Shivam and Aman"
+    android:textSize="20dp"
+    android:fontFamily="sans-serif-condensed"/>
+</FrameLayout>
