@@ -86,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<ImageModel>> call, Response<List<ImageModel>> response) {
 
-binding.mainshimmer.setVisibility(GONE);
-binding.rec.setVisibility(View.VISIBLE);
+                        binding.mainshimmer.setVisibility(GONE);
+                        binding.rec.setVisibility(View.VISIBLE);
                         if (response.isSuccessful()) {
                             list.addAll(response.body());
                             adapter.notifyDataSetChanged();
 
                         }
                         isLoading = false;
-                      //  progressDialog.dismiss();
+                        //  progressDialog.dismiss();
                         binding.mainshimmer.setVisibility(GONE);
 
 
@@ -107,7 +107,7 @@ binding.rec.setVisibility(View.VISIBLE);
                     @Override
                     public void onFailure(Call<List<ImageModel>> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Error :" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                      //  progressDialog.dismiss();
+                        //  progressDialog.dismiss();
                         binding.mainshimmer.setVisibility(GONE);
 
                     }
@@ -123,7 +123,7 @@ binding.rec.setVisibility(View.VISIBLE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-              //  progressDialog.show();
+                //  progressDialog.show();
                 binding.mainshimmer.setVisibility(View.VISIBLE);
                 searchdata(query);
                 return true;
@@ -143,7 +143,7 @@ binding.rec.setVisibility(View.VISIBLE);
         api.searchimage(query).enqueue(new Callback<SerachModel>() {
             @Override
             public void onResponse(Call<SerachModel> call, Response<SerachModel> response) {
-             //   progressDialog.dismiss();
+                //   progressDialog.dismiss();
                 binding.mainshimmer.setVisibility(GONE);
                 list.clear();
 
