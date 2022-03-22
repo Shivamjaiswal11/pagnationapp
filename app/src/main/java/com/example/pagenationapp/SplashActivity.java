@@ -41,9 +41,9 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         }, SPLASH_SCREEN_TIME_OUT);
-        Animation myanimation= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.animation2);
+        Animation myanimation= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.animation1);
         b.tv1.startAnimation(myanimation);
-        Animation myanimation1= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.animation1);
+        Animation myanimation1= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.animation2);
         b.tv1.startAnimation(myanimation1);
     }
 }
