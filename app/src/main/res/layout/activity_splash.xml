@@ -16,13 +16,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Welcome"
-        android:textSize="60dp"
-<<<<<<< HEAD
-        android:textStyle="bold" />
-=======
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-condensed" />
->>>>>>> b159f475b560aadccf244d2ce0988a6df3958285
+        android:textSize="60dp"/>
+
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
@@ -30,7 +25,6 @@
         android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-<<<<<<< HEAD
 
         app:lottie_rawRes="@raw/serach2" />
 
@@ -44,18 +38,5 @@
         android:paddingTop="650dp"
         android:text="Develop by Shivam and Aman"
         android:textSize="20dp" />
-=======
-        app:lottie_url="https://assets3.lottiefiles.com/packages/lf20_ycm8tr5x.json" />
 
-    <TextView
-
-        android:gravity="center"
-        android:paddingTop="600dp"
-        android:id="@+id/tv2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Develop by Shivam and Aman"
-        android:textSize="20dp"
-        android:fontFamily="sans-serif-condensed" />
->>>>>>> b159f475b560aadccf244d2ce0988a6df3958285
 </FrameLayout>

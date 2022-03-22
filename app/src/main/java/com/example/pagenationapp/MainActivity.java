@@ -4,14 +4,19 @@ import static android.view.View.GONE;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +30,9 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import nl.joery.animatedbottombar.AnimatedBottomBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoading;
     private boolean isLastPage;
     private ShimmerFrameLayout shimmerFrameLayout;
+    AnimatedBottomBar bottom_bar;
+    FragmentManager fragmentManager;
 
 
     @Override
@@ -78,12 +88,59 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        forbottomnavigation();
+        if (savedInstanceState == null) {
+            bottom_bar.selectTabById(R.id.homenav, true);
+
+            fragmentManager = getSupportFragmentManager();
+            HomeFragment homeFragment = new HomeFragment();
+            fragmentManager.beginTransaction().replace(R.id.frgment_contanier, homeFragment)
+                    .commit();
+
+        }
+    }
+
+    public void forbottomnavigation() {
+        bottom_bar = findViewById(R.id.bottom_bar);
+
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int newindex, @Nullable AnimatedBottomBar.Tab tab, int lastindex, @NonNull AnimatedBottomBar.Tab tab1) {
+                Fragment fragment = null;
+                switch (tab1.getId()) {
+                    case R.id.homenav:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.likenav:
+                        fragment = new LikeFragment();
+                        break;
+                    case R.id.clocknav:
+                        fragment = new ClockFragment();
+                        break;
+
+                }
+                if (fragment != null) {
+                    fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.frgment_contanier, fragment)
+                            .commit();
+                }
+
+
+            }
+
+            @Override
+            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
+
+            }
+        });
+
+
     }
 
     private void imageload() {
         isLoading = true;
         Requestinterface api = ServiceGenerator.createService(Requestinterface.class);
-        api.getimage(page,30)
+        api.getimage(page, 30)
                 .enqueue(new Callback<List<ImageModel>>() {
                     @Override
                     public void onResponse(Call<List<ImageModel>> call, Response<List<ImageModel>> response) {
@@ -119,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.searchmenu, menu);
+        getMenuInflater().inflate(R.menu.bottomnaviation, menu);
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -162,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onResume() {

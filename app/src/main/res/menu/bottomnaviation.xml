@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/homenav"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+
+        />
+    <item android:id="@+id/likenav"
+        android:icon="@drawable/ic_like"
+        android:title="Like"
+
+      />
+    <item android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+    <item android:id="@+id/clocknav"
+        android:icon="@drawable/ic_clock"
+        android:title="Clock"
+
+       />
+</menu>
