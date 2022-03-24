@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ZoomActivity">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bcak1"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
 
+/>
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/myZoomageView"
         android:layout_width="wrap_content"
@@ -20,14 +27,41 @@
         app:zoomage_translatable="true"
         app:zoomage_zoomable="true" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/DownLoadBtn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/ic_download" />
+        android:padding="10dp"
+       >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/DownLoadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+
+
+
+            android:src="@drawable/ic_download" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/likeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FA7DAA"
+            android:layout_margin="7dp"
+            android:src="@drawable/ic_like" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+            android:id="@+id/ShareBtn"
+            android:layout_margin="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#5C72FA"
+            android:src="@drawable/ic_share" />
+    </LinearLayout>
 
 </RelativeLayout>

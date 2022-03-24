@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-android'
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     implementation 'com.airbnb.android:lottie:5.0.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation 'com.karumi:dexter:6.2.3'
 
@@ -58,6 +60,12 @@ dependencies {
     //bottomsheetavigation
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
 
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'                //Image Loading Library
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
 
 
