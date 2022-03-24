@@ -53,6 +53,8 @@ public class ZoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_zoom);
         binding = ActivityZoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+        
 
        PRDownloader.initialize(getApplicationContext());
         myZoomageView=findViewById(R.id.myZoomageView);
@@ -67,6 +69,7 @@ public class ZoomActivity extends AppCompatActivity {
               shareimage();
           }
       });
+
     }
 
     private void shareimage() {
@@ -94,32 +97,32 @@ public class ZoomActivity extends AppCompatActivity {
     }*/
 
     private void downLoadimage() {
-      /*  ProgressDialog pd= new ProgressDialog(this);
-        pd.setMessage("Downloading...");
-        pd.setCancelable(true);
-        pd.show();*/
+
 
         // Initialization Of DownLoad Button
         AndroidNetworking.initialize(getApplicationContext());
 
         //Folder Creating Into Phone Storage
         dirPath = Environment.getExternalStorageDirectory() + "/SearchImage";
-        int min=1;
-        int max=1000;
-        int random = ThreadLocalRandom.current().nextInt(min, max);
-        fileName = +random+".jpeg";
+//        int min=1;
+//        int max=1000;
+      //  int random = ThreadLocalRandom.current().nextInt(min, max);
+      //  fileName = URLUtil.guessFileName(url,null,null)+".jpeg";
 
         //file Creating With Folder & Fle Name
-        file = new File(dirPath, fileName);
+       // file = new File(dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg");
 
         //Click Listener For DownLoad Button
        binding.DownLoadBtn. setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                ProgressDialog pd= new ProgressDialog(ZoomActivity.this);
+                pd.setMessage("Downloading...");
+                pd.setCancelable(false);
+                pd.show();
 
-                AndroidNetworking.download(url, dirPath, fileName)
-
+                AndroidNetworking.download(url, dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg")
                         .setTag("downloadTest")
                         .setPriority(Priority.MEDIUM)
                         .build()
@@ -128,19 +131,20 @@ public class ZoomActivity extends AppCompatActivity {
                             public void onProgress(long bytesDownloaded, long totalBytes) {
 
                                 long percent= bytesDownloaded *100 / totalBytes;
-                              //  pd.setMessage("Downloading..("+percent+")%");
+                                pd.setMessage("Downloading..("+percent+")%");
                             }
                         })
                         .startDownload(new com.androidnetworking.interfaces.DownloadListener() {
                             @Override
                             public void onDownloadComplete() {
-                                //pd.dismiss();
+                                pd.dismiss();
                                 Toast.makeText(ZoomActivity.this, "DownLoad Complete", Toast.LENGTH_SHORT).show();
 
                             }
 
                             @Override
                             public void onError(ANError anError) {
+                                pd.dismiss();
                                 Toast.makeText(ZoomActivity.this, "Error", Toast.LENGTH_SHORT).show();
 
                             }
@@ -198,5 +202,11 @@ public class ZoomActivity extends AppCompatActivity {
                     }
                 });*/
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
