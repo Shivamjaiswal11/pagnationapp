@@ -6,8 +6,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
@@ -54,25 +59,34 @@ public class ZoomActivity extends AppCompatActivity {
         binding = ActivityZoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
-        
 
-       PRDownloader.initialize(getApplicationContext());
-        myZoomageView=findViewById(R.id.myZoomageView);
 
-        url=getIntent().getStringExtra("image");
+        PRDownloader.initialize(getApplicationContext());
+        myZoomageView = findViewById(R.id.myZoomageView);
+
+        url = getIntent().getStringExtra("image");
 
         Glide.with(this).load(url).into(myZoomageView);
-      downLoadimage();
-      binding.ShareBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              shareimage();
-          }
-      });
+        downLoadimage();
+        binding.ShareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareimage();
+            }
+        });
+
 
     }
 
     private void shareimage() {
+        BitmapDrawable drawable= (BitmapDrawable)myZoomageView.getDrawable();
+        Bitmap bitmap=drawable.getBitmap();
+        String bitmappath= MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"title",null);
+        Uri uri =Uri.parse(bitmappath);
+        Intent intent= new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM,uri);
+        startActivity(Intent.createChooser(intent,"Share"));
 
 
 
@@ -106,23 +120,23 @@ public class ZoomActivity extends AppCompatActivity {
         dirPath = Environment.getExternalStorageDirectory() + "/SearchImage";
 //        int min=1;
 //        int max=1000;
-      //  int random = ThreadLocalRandom.current().nextInt(min, max);
-      //  fileName = URLUtil.guessFileName(url,null,null)+".jpeg";
+        //  int random = ThreadLocalRandom.current().nextInt(min, max);
+        //  fileName = URLUtil.guessFileName(url,null,null)+".jpeg";
 
         //file Creating With Folder & Fle Name
-       // file = new File(dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg");
+        // file = new File(dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg");
 
         //Click Listener For DownLoad Button
-       binding.DownLoadBtn. setOnClickListener(new View.OnClickListener() {
+        binding.DownLoadBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                ProgressDialog pd= new ProgressDialog(ZoomActivity.this);
+                ProgressDialog pd = new ProgressDialog(ZoomActivity.this);
                 pd.setMessage("Downloading...");
                 pd.setCancelable(false);
                 pd.show();
 
-                AndroidNetworking.download(url, dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg")
+                AndroidNetworking.download(url, dirPath, URLUtil.guessFileName(url, null, null) + ".jpeg")
                         .setTag("downloadTest")
                         .setPriority(Priority.MEDIUM)
                         .build()
@@ -130,8 +144,8 @@ public class ZoomActivity extends AppCompatActivity {
                             @Override
                             public void onProgress(long bytesDownloaded, long totalBytes) {
 
-                                long percent= bytesDownloaded *100 / totalBytes;
-                                pd.setMessage("Downloading..("+percent+")%");
+                                long percent = bytesDownloaded * 100 / totalBytes;
+                                pd.setMessage("Downloading..(" + percent + ")%");
                             }
                         })
                         .startDownload(new com.androidnetworking.interfaces.DownloadListener() {
