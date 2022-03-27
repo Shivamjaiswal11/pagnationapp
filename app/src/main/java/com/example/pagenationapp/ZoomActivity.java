@@ -8,7 +8,10 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,6 +37,8 @@ import com.downloader.PRDownloader;
 import com.downloader.Progress;
 import com.example.pagenationapp.databinding.ActivityMainBinding;
 import com.example.pagenationapp.databinding.ActivityZoomBinding;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.jsibbold.zoomage.ZoomageView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -44,6 +49,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
 
 public class ZoomActivity extends AppCompatActivity {
     ZoomageView myZoomageView;
@@ -72,22 +78,99 @@ public class ZoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 shareimage();
+
             }
+
         });
+        fortabtarget();
 
 
     }
 
-    private void shareimage() {
-        BitmapDrawable drawable= (BitmapDrawable)myZoomageView.getDrawable();
-        Bitmap bitmap=drawable.getBitmap();
-        String bitmappath= MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"title",null);
-        Uri uri =Uri.parse(bitmappath);
-        Intent intent= new Intent(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
-        intent.putExtra(Intent.EXTRA_STREAM,uri);
-        startActivity(Intent.createChooser(intent,"Share"));
+    private void fortabtarget() {
 
+        new TapTargetSequence(this)
+                .targets(
+                        TapTarget.forView(binding.ShareBtn, "Send your first Photo", "Tap the envelope to start Sharing your first Photo")
+                                .outerCircleColor(R.color.blue)
+                                .outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white)
+                                .titleTextSize(20)
+                                .titleTextColor(R.color.white)
+                                .descriptionTextSize(10)
+                                .descriptionTextColor(R.color.black)
+                                .textColor(R.color.white)
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.white)
+                                .drawShadow(false)
+                                .cancelable(false)
+                                .tintTarget(true)
+                                .transparentTarget(true)
+                                .targetRadius(60),
+                        TapTarget.forView(binding.likeBtn, "Like The Photo", "Tap the envelope to start Like your first Photo")
+                                .outerCircleColor(R.color.pink)
+                                .outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white)
+                                .titleTextSize(20)
+                                .titleTextColor(R.color.white)
+                                .descriptionTextSize(10)
+                                .descriptionTextColor(R.color.black)
+                                .textColor(R.color.white)
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.white)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .tintTarget(true)
+                                .transparentTarget(true)
+                                .targetRadius(60),
+                        TapTarget.forView(binding.DownLoadBtn, "Download The Photo", "Tap the envelope to start download your first Photo")
+                                .outerCircleColor(R.color.teal_200)
+                                .outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white)
+                                .titleTextSize(20)
+                                .titleTextColor(R.color.white)
+                                .descriptionTextSize(10)
+                                .descriptionTextColor(R.color.black)
+                                .textColor(R.color.white)
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.white)
+                                .drawShadow(true)
+                                .cancelable(false)
+                                .tintTarget(true)
+                                .transparentTarget(true)
+                                .targetRadius(60))
+                .listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() {
+
+
+                        Toast.makeText(ZoomActivity.this, "Finish", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
+
+
+                        Toast.makeText(ZoomActivity.this, "GREAT!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) {
+
+                    }
+                }).start();
+    }
+
+
+    private void shareimage() {
+        BitmapDrawable drawable = (BitmapDrawable) myZoomageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        String bitmappath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "title", null);
+        Uri uri = Uri.parse(bitmappath);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Share"));
 
 
     }
@@ -113,20 +196,11 @@ public class ZoomActivity extends AppCompatActivity {
     private void downLoadimage() {
 
 
-        // Initialization Of DownLoad Button
         AndroidNetworking.initialize(getApplicationContext());
 
-        //Folder Creating Into Phone Storage
+
         dirPath = Environment.getExternalStorageDirectory() + "/SearchImage";
-//        int min=1;
-//        int max=1000;
-        //  int random = ThreadLocalRandom.current().nextInt(min, max);
-        //  fileName = URLUtil.guessFileName(url,null,null)+".jpeg";
 
-        //file Creating With Folder & Fle Name
-        // file = new File(dirPath,  URLUtil.guessFileName(url,null,null)+".jpeg");
-
-        //Click Listener For DownLoad Button
         binding.DownLoadBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -169,52 +243,6 @@ public class ZoomActivity extends AppCompatActivity {
 
         });
 
-       /* File file= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-
-        PRDownloader.download(url, file.getPath(), URLUtil.guessFileName(url,null,null))
-                .build()
-                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
-                    @Override
-                    public void onStartOrResume() {
-
-                    }
-                })
-                .setOnPauseListener(new OnPauseListener() {
-                    @Override
-                    public void onPause() {
-
-                    }
-                })
-                .setOnCancelListener(new OnCancelListener() {
-                    @Override
-                    public void onCancel() {
-
-                    }
-                })
-                .setOnProgressListener(new OnProgressListener() {
-                    @Override
-                    public void onProgress(Progress progress) {
-                        long percent=progress.currentBytes*100/ progress.totalBytes;
-                        pd.setMessage("Downloading..("+percent+")%");
-
-                    }
-                })
-                .start(new OnDownloadListener() {
-                    @Override
-                    public void onDownloadComplete() {
-                        pd.dismiss();
-                        Toast.makeText(ZoomActivity.this, "Downloading Completed..", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        pd.dismiss();
-                        Toast.makeText(ZoomActivity.this, "Error..", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                });*/
 
     }
 
