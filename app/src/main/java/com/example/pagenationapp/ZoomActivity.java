@@ -156,14 +156,14 @@ public class ZoomActivity extends AppCompatActivity {
                     public void onSequenceFinish() {
 
 
-                        Toast.makeText(ZoomActivity.this, "Finish", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
 
 
-                        Toast.makeText(ZoomActivity.this, "GREAT!", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
