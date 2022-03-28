@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -66,6 +67,10 @@ public class ZoomActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
 
+        SharedPreferences sp = getSharedPreferences("dataFile", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+
+
 
         PRDownloader.initialize(getApplicationContext());
         myZoomageView = findViewById(R.id.myZoomageView);
@@ -82,12 +87,19 @@ public class ZoomActivity extends AppCompatActivity {
             }
 
         });
-        fortabtarget();
+
+        if (sp.getBoolean("firstTime",true)){
+            ed.putBoolean("firstTime",false);
+            ed.commit();
+            fortabtarget();
+        }
+
 
 
     }
 
     private void fortabtarget() {
+
 
         new TapTargetSequence(this)
                 .targets(
